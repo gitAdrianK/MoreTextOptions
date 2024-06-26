@@ -1,7 +1,11 @@
 ﻿using HarmonyLib;
+using JumpKing;
 using JumpKing.Mods;
 using JumpKing.PauseMenu;
 using JumpKing.Util;
+using LessTextOutline.Menu;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -18,12 +22,42 @@ namespace LessTextOutline
 
         private static string AssemblyPath { get; set; }
         public static Preferences Preferences { get; private set; }
+        public static int OffsetX { get; private set; }
+        public static int OffsetY { get; private set; }
 
         [MainMenuItemSetting]
         [PauseMenuItemSetting]
-        public static ToggleDisableOutline Toggle(object factory, GuiFormat format)
+        public static ToggleDisableOutline ToggleOutline(object factory, GuiFormat format)
         {
             return new ToggleDisableOutline();
+        }
+
+        [MainMenuItemSetting]
+        [PauseMenuItemSetting]
+        public static ToggleCustomOutline ToggleCustom(object factory, GuiFormat format)
+        {
+            return new ToggleCustomOutline();
+        }
+
+        [MainMenuItemSetting]
+        [PauseMenuItemSetting]
+        public static SliderRed SliderRed(object factory, GuiFormat format)
+        {
+            return new SliderRed();
+        }
+
+        [MainMenuItemSetting]
+        [PauseMenuItemSetting]
+        public static SliderGreen SliderGreen(object factory, GuiFormat format)
+        {
+            return new SliderGreen();
+        }
+
+        [MainMenuItemSetting]
+        [PauseMenuItemSetting]
+        public static SliderBlue SliderBlue(object factory, GuiFormat format)
+        {
+            return new SliderBlue();
         }
 
         /// <summary>
@@ -51,14 +85,40 @@ namespace LessTextOutline
             harmony.Patch(
                 drawString,
                 prefix: disableOutline);
+
+            SpriteFont spriteFont = Game1.instance.contentManager.font.MenuFont;
+            Point red = spriteFont.MeasureString("Red").ToPoint();
+            Point green = spriteFont.MeasureString("Green").ToPoint();
+            Point blue = spriteFont.MeasureString("Blue").ToPoint();
+            Point alpha = spriteFont.MeasureString("Alpha").ToPoint();
+            OffsetX = Math.Max(red.X, Math.Max(green.X, Math.Max(blue.X, alpha.X)));
+            OffsetY = red.Y;
         }
 
-        public static bool DisableOutline(ref bool p_is_outlined)
+        public static bool DisableOutline(SpriteFont p_font, string p_text, Vector2 p_position, ref bool p_is_outlined)
         {
-            if (Preferences.IsEnabled)
+            if (!p_is_outlined)
             {
-                p_is_outlined = false;
+                return true;
             }
+
+            if (!Preferences.IsEnabled)
+            {
+                return true;
+            }
+
+            p_is_outlined = false;
+
+            Color color = new Color(Preferences.Red, Preferences.Green, Preferences.Blue);
+            Game1.spriteBatch.DrawString(p_font, p_text, Vector2.Add(p_position, new Vector2(-1f, -1f)), color);
+            Game1.spriteBatch.DrawString(p_font, p_text, Vector2.Add(p_position, new Vector2(-1f, 0f)), color);
+            Game1.spriteBatch.DrawString(p_font, p_text, Vector2.Add(p_position, new Vector2(-1f, 1f)), color);
+            Game1.spriteBatch.DrawString(p_font, p_text, Vector2.Add(p_position, new Vector2(0f, -1f)), color);
+            Game1.spriteBatch.DrawString(p_font, p_text, Vector2.Add(p_position, new Vector2(0f, 1f)), color);
+            Game1.spriteBatch.DrawString(p_font, p_text, Vector2.Add(p_position, new Vector2(1f, -1f)), color);
+            Game1.spriteBatch.DrawString(p_font, p_text, Vector2.Add(p_position, new Vector2(1f, 0f)), color);
+            Game1.spriteBatch.DrawString(p_font, p_text, Vector2.Add(p_position, new Vector2(1f, 1f)), color);
+
             return true;
         }
 
