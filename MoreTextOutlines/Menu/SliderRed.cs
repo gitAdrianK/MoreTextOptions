@@ -2,11 +2,11 @@
 using JumpKing.PauseMenu.BT.Actions;
 using Microsoft.Xna.Framework;
 
-namespace LessTextOutline.Menu
+namespace MoreTextOutlines.Menu
 {
-    public class SliderGreen : ISlider
+    public class SliderRed : ISlider
     {
-        public SliderGreen() : base(ModEntry.Preferences.Green / 255.0f)
+        public SliderRed() : base(ModEntry.Preferences.Red / 255.0f)
         {
         }
 
@@ -14,7 +14,7 @@ namespace LessTextOutline.Menu
         {
             Game1.spriteBatch.DrawString(
                 Game1.instance.contentManager.font.MenuFont,
-                "Green",
+                "Red",
                 new Vector2(x, y - ModEntry.OffsetY / 4),
                 Color.White);
             new_x = x + ModEntry.OffsetX + 5;
@@ -27,7 +27,7 @@ namespace LessTextOutline.Menu
 
         protected override void OnSliderChange(float p_value)
         {
-            ModEntry.Preferences.Green = (int)(255 * p_value);
+            ModEntry.Preferences.Red = (int)(255 * p_value);
         }
     }
 }

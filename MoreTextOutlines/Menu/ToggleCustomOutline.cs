@@ -1,6 +1,6 @@
 ﻿using JumpKing.PauseMenu.BT.Actions;
 
-namespace LessTextOutline.Menu
+namespace MoreTextOutlines.Menu
 {
     public class ToggleCustomOutline : ITextToggle
     {

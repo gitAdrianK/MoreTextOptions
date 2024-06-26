@@ -3,22 +3,22 @@ using JumpKing;
 using JumpKing.Mods;
 using JumpKing.PauseMenu;
 using JumpKing.Util;
-using LessTextOutline.Menu;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MoreTextOutlines.Menu;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
-namespace LessTextOutline
+namespace MoreTextOutlines
 {
-    [JumpKingMod("Zebra.LessTextOutline")]
+    [JumpKingMod("Zebra.MoreTextOutlines")]
     public static class ModEntry
     {
-        const string IDENTIFIER = "Zebra.LessTextOutline";
-        const string HARMONY_IDENTIFIER = "Zebra.LessTextOutline.Harmony";
-        const string SETTINGS_FILE = "Zebra.LessTextOutline.Settings.xml";
+        const string IDENTIFIER = "Zebra.MoreTextOutlines";
+        const string HARMONY_IDENTIFIER = "Zebra.MoreTextOutlines.Harmony";
+        const string SETTINGS_FILE = "Zebra.MoreTextOutlines.Settings.xml";
 
         private static string AssemblyPath { get; set; }
         public static Preferences Preferences { get; private set; }
