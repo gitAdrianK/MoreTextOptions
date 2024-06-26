@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace LessTextOutline
+namespace MoreTextOutlines
 {
     public class Preferences : INotifyPropertyChanged
     {
