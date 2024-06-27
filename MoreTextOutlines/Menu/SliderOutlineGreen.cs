@@ -2,11 +2,11 @@
 using JumpKing.PauseMenu.BT.Actions;
 using Microsoft.Xna.Framework;
 
-namespace MoreTextOutlines.Menu
+namespace MoreTextOptions.Menu
 {
-    public class SliderGreen : ISlider
+    public class SliderOutlineGreen : ISlider
     {
-        public SliderGreen() : base(ModEntry.Preferences.Green / 255.0f)
+        public SliderOutlineGreen() : base(ModEntry.Preferences.OutlineGreen / 255.0f)
         {
         }
 
@@ -27,7 +27,7 @@ namespace MoreTextOutlines.Menu
 
         protected override void OnSliderChange(float p_value)
         {
-            ModEntry.Preferences.Green = (int)(255 * p_value);
+            ModEntry.Preferences.OutlineGreen = (int)(255 * p_value);
         }
     }
 }

@@ -1,62 +1,106 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace MoreTextOutlines
+namespace MoreTextOptions
 {
     public class Preferences : INotifyPropertyChanged
     {
-        private bool _isEnabled = true;
-        private bool _isCustom = false;
-        private int _red = 0;
-        private int _green = 0;
-        private int _blue = 0;
+        private bool _isCustomTextColor = false;
+        private int _textRed = 255;
+        private int _textGreen = 255;
+        private int _textBlue = 255;
+        private bool _isOutlineEnabled = false;
+        private bool _isCustomOutline = false;
+        private int _outlineRed = 0;
+        private int _outlineGreen = 0;
+        private int _outlineBlue = 0;
 
-        public bool IsEnabled
+        public bool IsCustomTextColor
         {
-            get => _isEnabled;
+            get => _isCustomTextColor;
             set
             {
-                _isEnabled = value;
+                _isCustomTextColor = value;
                 OnPropertyChanged();
             }
         }
 
-        public bool IsCustom
+        public int TextRed
         {
-            get => _isCustom;
+            get => _textRed;
             set
             {
-                _isCustom = value;
+                _textRed = value;
                 OnPropertyChanged();
             }
         }
 
-        public int Red
+        public int TextGreen
         {
-            get => _red;
+            get => _textGreen;
             set
             {
-                _red = value;
+                _textGreen = value;
                 OnPropertyChanged();
             }
         }
 
-        public int Green
+        public int TextBlue
         {
-            get => _green;
+            get => _textBlue;
             set
             {
-                _green = value;
+                _textBlue = value;
                 OnPropertyChanged();
             }
         }
 
-        public int Blue
+        public bool IsOutlineEnabled
         {
-            get => _blue;
+            get => _isOutlineEnabled;
             set
             {
-                _blue = value;
+                _isOutlineEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsCustomOutline
+        {
+            get => _isCustomOutline;
+            set
+            {
+                _isCustomOutline = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int OutlineRed
+        {
+            get => _outlineRed;
+            set
+            {
+                _outlineRed = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int OutlineGreen
+        {
+            get => _outlineGreen;
+            set
+            {
+                _outlineGreen = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int OutlineBlue
+        {
+            get => _outlineBlue;
+            set
+            {
+                _outlineBlue = value;
                 OnPropertyChanged();
             }
         }

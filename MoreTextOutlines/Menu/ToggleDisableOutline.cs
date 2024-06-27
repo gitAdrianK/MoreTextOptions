@@ -1,10 +1,10 @@
 ﻿using JumpKing.PauseMenu.BT.Actions;
 
-namespace MoreTextOutlines.Menu
+namespace MoreTextOptions.Menu
 {
     public class ToggleDisableOutline : ITextToggle
     {
-        public ToggleDisableOutline() : base(ModEntry.Preferences.IsEnabled)
+        public ToggleDisableOutline() : base(ModEntry.Preferences.IsOutlineEnabled)
         {
         }
 
@@ -12,7 +12,7 @@ namespace MoreTextOutlines.Menu
 
         protected override void OnToggle()
         {
-            ModEntry.Preferences.IsEnabled = !ModEntry.Preferences.IsEnabled;
+            ModEntry.Preferences.IsOutlineEnabled = !ModEntry.Preferences.IsOutlineEnabled;
         }
     }
 }

@@ -2,23 +2,24 @@
 using JumpKing;
 using JumpKing.Mods;
 using JumpKing.PauseMenu;
+using JumpKing.PauseMenu.BT;
 using JumpKing.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MoreTextOutlines.Menu;
+using MoreTextOptions.Menu;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
-namespace MoreTextOutlines
+namespace MoreTextOptions
 {
-    [JumpKingMod("Zebra.MoreTextOutlines")]
+    [JumpKingMod(IDENTIFIER)]
     public static class ModEntry
     {
-        const string IDENTIFIER = "Zebra.MoreTextOutlines";
-        const string HARMONY_IDENTIFIER = "Zebra.MoreTextOutlines.Harmony";
-        const string SETTINGS_FILE = "Zebra.MoreTextOutlines.Settings.xml";
+        const string IDENTIFIER = "Zebra.MoreTextOptions";
+        const string HARMONY_IDENTIFIER = "Zebra.MoreTextOptions.Harmony";
+        const string SETTINGS_FILE = "Zebra.MoreTextOptions.Settings.xml";
 
         private static string AssemblyPath { get; set; }
         public static Preferences Preferences { get; private set; }
@@ -26,38 +27,65 @@ namespace MoreTextOutlines
         public static int OffsetY { get; private set; }
 
         [MainMenuItemSetting]
+        public static TextInfo HintOptionsLocation(object factory, GuiFormat format)
+        {
+            return new TextInfo("Options in the pausemenu!", Color.Lime);
+        }
+
+        // "Let's capitalize function names" -Some genius
+
+        [PauseMenuItemSetting]
+        public static ToggleCustomText ToggleCustomText(object factory, GuiFormat format)
+        {
+            return new ToggleCustomText();
+        }
+
+        [PauseMenuItemSetting]
+        public static SliderTextRed SliderTextRed(object factory, GuiFormat format)
+        {
+            return new SliderTextRed();
+        }
+
+        [PauseMenuItemSetting]
+        public static SliderTextGreen SliderTextGreen(object factory, GuiFormat format)
+        {
+            return new SliderTextGreen();
+        }
+
+        [PauseMenuItemSetting]
+        public static SliderTextBlue SliderTextBlue(object factory, GuiFormat format)
+        {
+            return new SliderTextBlue();
+        }
+
         [PauseMenuItemSetting]
         public static ToggleDisableOutline ToggleOutline(object factory, GuiFormat format)
         {
             return new ToggleDisableOutline();
         }
 
-        [MainMenuItemSetting]
         [PauseMenuItemSetting]
-        public static ToggleCustomOutline ToggleCustom(object factory, GuiFormat format)
+        public static ToggleCustomOutline ToggleCustomOutline(object factory, GuiFormat format)
         {
             return new ToggleCustomOutline();
         }
 
-        [MainMenuItemSetting]
         [PauseMenuItemSetting]
-        public static SliderRed SliderRed(object factory, GuiFormat format)
+        public static SliderOutlineRed SliderOutlineRed(object factory, GuiFormat format)
         {
-            return new SliderRed();
+            return new SliderOutlineRed();
         }
 
-        [MainMenuItemSetting]
         [PauseMenuItemSetting]
-        public static SliderGreen SliderGreen(object factory, GuiFormat format)
+        public static SliderOutlineGreen SliderOutlineGreen(object factory, GuiFormat format)
         {
-            return new SliderGreen();
+            return new SliderOutlineGreen();
         }
 
-        [MainMenuItemSetting]
         [PauseMenuItemSetting]
-        public static SliderBlue SliderBlue(object factory, GuiFormat format)
+        public static SliderOutlineBlue SliderOutlineBlue(object factory, GuiFormat format)
         {
-            return new SliderBlue();
+            return new SliderOutlineBlue();
         }
 
         /// <summary>
@@ -81,10 +109,10 @@ namespace MoreTextOutlines
 
             Harmony harmony = new Harmony(HARMONY_IDENTIFIER);
             MethodInfo drawString = typeof(TextHelper).GetMethod(nameof(TextHelper.DrawString));
-            HarmonyMethod disableOutline = new HarmonyMethod(typeof(ModEntry).GetMethod(nameof(DisableOutline)));
+            HarmonyMethod modifyText = new HarmonyMethod(typeof(ModEntry).GetMethod(nameof(ModifyText)));
             harmony.Patch(
                 drawString,
-                prefix: disableOutline);
+                prefix: modifyText);
 
             SpriteFont spriteFont = Game1.instance.contentManager.font.MenuFont;
             Point red = spriteFont.MeasureString("Red").ToPoint();
@@ -95,24 +123,29 @@ namespace MoreTextOutlines
             OffsetY = red.Y;
         }
 
-        public static bool DisableOutline(SpriteFont p_font, string p_text, Vector2 p_position, ref bool p_is_outlined)
+        public static bool ModifyText(SpriteFont p_font, string p_text, Vector2 p_position, ref Color p_color, ref bool p_is_outlined)
         {
             if (!p_is_outlined)
             {
                 return true;
             }
 
-            if (Preferences.IsEnabled)
+            if (Preferences.IsCustomTextColor)
+            {
+                p_color = new Color(Preferences.TextRed, Preferences.TextGreen, Preferences.TextBlue);
+            }
+
+            if (Preferences.IsOutlineEnabled)
             {
                 p_is_outlined = false;
                 return true;
             }
 
-            if (Preferences.IsCustom)
+            if (Preferences.IsCustomOutline)
             {
                 p_is_outlined = false;
 
-                Color color = new Color(Preferences.Red, Preferences.Green, Preferences.Blue);
+                Color color = new Color(Preferences.OutlineRed, Preferences.OutlineGreen, Preferences.OutlineBlue);
                 Game1.spriteBatch.DrawString(p_font, p_text, Vector2.Add(p_position, new Vector2(-1f, -1f)), color);
                 Game1.spriteBatch.DrawString(p_font, p_text, Vector2.Add(p_position, new Vector2(-1f, 0f)), color);
                 Game1.spriteBatch.DrawString(p_font, p_text, Vector2.Add(p_position, new Vector2(-1f, 1f)), color);

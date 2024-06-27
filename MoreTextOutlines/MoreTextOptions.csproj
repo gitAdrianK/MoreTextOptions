@@ -8,8 +8,8 @@
     <ProjectGuid>{96477869-FD40-4899-A606-E5AC7CCF0F5A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MoreTextOutlines</RootNamespace>
-    <AssemblyName>MoreTextOutlines</AssemblyName>
+    <RootNamespace>MoreTextOptions</RootNamespace>
+    <AssemblyName>MoreTextOptions</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -70,9 +70,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Menu\SliderBlue.cs" />
-    <Compile Include="Menu\SliderGreen.cs" />
-    <Compile Include="Menu\SliderRed.cs" />
+    <Compile Include="Menu\SliderOutlineBlue.cs" />
+    <Compile Include="Menu\SliderOutlineGreen.cs" />
+    <Compile Include="Menu\SliderOutlineRed.cs" />
+    <Compile Include="Menu\SliderTextBlue.cs" />
+    <Compile Include="Menu\SliderTextGreen.cs" />
+    <Compile Include="Menu\SliderTextRed.cs" />
+    <Compile Include="Menu\ToggleCustomText.cs" />
     <Compile Include="ModEntry.cs" />
     <Compile Include="Preferences.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
