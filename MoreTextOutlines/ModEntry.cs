@@ -118,8 +118,7 @@ namespace MoreTextOptions
             Point red = spriteFont.MeasureString("Red").ToPoint();
             Point green = spriteFont.MeasureString("Green").ToPoint();
             Point blue = spriteFont.MeasureString("Blue").ToPoint();
-            Point alpha = spriteFont.MeasureString("Alpha").ToPoint();
-            OffsetX = Math.Max(red.X, Math.Max(green.X, Math.Max(blue.X, alpha.X)));
+            OffsetX = Math.Max(red.X, Math.Max(green.X, blue.X));
             OffsetY = red.Y;
         }
 
