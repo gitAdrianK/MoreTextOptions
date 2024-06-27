@@ -1,4 +1,4 @@
-# LessTextOutline
+# MoreTextOutlines
 
 Gives you the ability to disable all text outlines or to set the outline to a custom colour.
 
