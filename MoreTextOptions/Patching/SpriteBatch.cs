@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Diagnostics;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
@@ -38,24 +37,7 @@ namespace MoreTextOptions.Patching
                 return true;
             }
 
-            ColorText colorText = ParseTag(text);
-
-            float centerX = position.X + spriteFont.MeasureString(text).X / 2;
-            color = colorText.Color;
-            text = colorText.Text;
-            position = new Vector2(centerX - spriteFont.MeasureString(text).X / 2, position.Y);
-
-            return true;
-        }
-
-        private static bool ContainsTag(string text)
-        {
-            return Regex.IsMatch(text, "^{color=\"(#(?:[0-9a-fA-F]{2}){3})\"}");
-        }
-
-        private static ColorText ParseTag(string text)
-        {
-            Regex regexText = new Regex("^{color=\"(#(?:[0-9a-fA-F]{2}){3})\"}");
+            Regex regexText = new Regex("{color=\"(#(?:[0-9a-fA-F]{2}){3})\"}");
             string[] substrings = regexText.Split(text);
 
             // [0] is an empty string
@@ -63,25 +45,21 @@ namespace MoreTextOptions.Patching
             int r = Convert.ToInt32(substrings[1].Substring(1, 2), 16);
             int g = Convert.ToInt32(substrings[1].Substring(3, 2), 16);
             int b = Convert.ToInt32(substrings[1].Substring(5, 2), 16);
-            Color color = new Color(r, g, b);
+            Color newColor = new Color(r, g, b, color.A);
 
             string cleanText = substrings[2];
 
-            Debugger.Log(1, "", color + " " + cleanText + "\n");
+            float centerX = position.X + spriteFont.MeasureString(text).X / 2;
+            color = newColor;
+            text = cleanText;
+            position = new Vector2(centerX - spriteFont.MeasureString(text).X / 2, position.Y);
 
-            return new ColorText(color, cleanText);
+            return true;
         }
 
-        internal class ColorText
+        private static bool ContainsTag(string text)
         {
-            public Color Color { get; }
-            public String Text { get; }
-
-            public ColorText(Color color, String text)
-            {
-                Color = color;
-                Text = text;
-            }
+            return Regex.IsMatch(text, "{color=\"(#(?:[0-9a-fA-F]{2}){3})\"}");
         }
     }
 }
