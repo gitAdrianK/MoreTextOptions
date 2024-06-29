@@ -9,6 +9,8 @@ namespace MoreTextOptions.Patching
 {
     public class SpriteBatch
     {
+        private static readonly Regex regex = new Regex("{color=\"(#(?:[0-9a-fA-F]{2}){3})\"}", RegexOptions.IgnoreCase);
+
         public SpriteBatch()
         {
             Harmony harmony = ModEntry.Harmony;
@@ -37,8 +39,7 @@ namespace MoreTextOptions.Patching
                 return true;
             }
 
-            Regex regexText = new Regex("{color=\"(#(?:[0-9a-fA-F]{2}){3})\"}");
-            string[] substrings = regexText.Split(text);
+            string[] substrings = regex.Split(text);
 
             // [0] is an empty string
 
@@ -59,7 +60,7 @@ namespace MoreTextOptions.Patching
 
         private static bool ContainsTag(string text)
         {
-            return Regex.IsMatch(text, "{color=\"(#(?:[0-9a-fA-F]{2}){3})\"}");
+            return regex.IsMatch(text);
         }
     }
 }
