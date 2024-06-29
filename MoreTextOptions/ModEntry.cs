@@ -3,10 +3,10 @@ using JumpKing;
 using JumpKing.Mods;
 using JumpKing.PauseMenu;
 using JumpKing.PauseMenu.BT;
-using JumpKing.Util;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MoreTextOptions.Menu;
+using MoreTextOptions.Patching;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -21,6 +21,7 @@ namespace MoreTextOptions
         const string HARMONY_IDENTIFIER = "Zebra.MoreTextOptions.Harmony";
         const string SETTINGS_FILE = "Zebra.MoreTextOptions.Settings.xml";
 
+        public static Harmony Harmony { get; set; }
         private static string AssemblyPath { get; set; }
         public static Preferences Preferences { get; private set; }
         public static int OffsetX { get; private set; }
@@ -107,12 +108,9 @@ namespace MoreTextOptions
             }
             Preferences.PropertyChanged += SaveSettingsOnFile;
 
-            Harmony harmony = new Harmony(HARMONY_IDENTIFIER);
-            MethodInfo drawString = typeof(TextHelper).GetMethod(nameof(TextHelper.DrawString));
-            HarmonyMethod modifyText = new HarmonyMethod(typeof(ModEntry).GetMethod(nameof(ModifyText)));
-            harmony.Patch(
-                drawString,
-                prefix: modifyText);
+            Harmony = new Harmony(HARMONY_IDENTIFIER);
+            new TextHelper();
+            new Patching.SpriteBatch();
 
             SpriteFont spriteFont = Game1.instance.contentManager.font.MenuFont;
             Point red = spriteFont.MeasureString("Red").ToPoint();
