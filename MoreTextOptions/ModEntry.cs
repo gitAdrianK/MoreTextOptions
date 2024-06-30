@@ -6,7 +6,6 @@ using JumpKing.PauseMenu.BT;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MoreTextOptions.Menu;
-using MoreTextOptions.Patching;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -95,6 +94,8 @@ namespace MoreTextOptions
         [BeforeLevelLoad]
         public static void BeforeLevelLoad()
         {
+            //Debugger.Launch();
+
             AssemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             try
@@ -109,7 +110,7 @@ namespace MoreTextOptions
             Preferences.PropertyChanged += SaveSettingsOnFile;
 
             Harmony = new Harmony(HARMONY_IDENTIFIER);
-            new TextHelper();
+            new Patching.TextHelper();
             new Patching.SpriteBatch();
 
             SpriteFont spriteFont = Game1.instance.contentManager.font.MenuFont;
