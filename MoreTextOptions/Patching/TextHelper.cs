@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using JumpKing;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System.Reflection;
 
 namespace MoreTextOptions.Patching
@@ -19,7 +18,7 @@ namespace MoreTextOptions.Patching
                 prefix: modifyText);
         }
 
-        public static bool ModifyText(SpriteFont p_font, string p_text, Vector2 p_position, ref Color p_color, ref bool p_is_outlined)
+        public static bool ModifyText(Microsoft.Xna.Framework.Graphics.SpriteFont p_font, string p_text, Vector2 p_position, ref Color p_color, ref bool p_is_outlined)
         {
             if (!p_is_outlined)
             {

@@ -7,14 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace MoreTextOptions.Patching
 {
     public class SpriteBatch
     {
-        private static readonly Regex regex = new Regex("{color=\"(#(?:[0-9a-fA-F]{2}){3})\"}", RegexOptions.IgnoreCase);
-
         public SpriteBatch()
         {
             Harmony harmony = ModEntry.Harmony;
@@ -43,7 +40,7 @@ namespace MoreTextOptions.Patching
                 return true;
             }
 
-            string[] substrings = regex.Split(text);
+            string[] substrings = ModEntry.REGEX.Split(text);
 
             LinkedList<string> pairs;
             if (substrings[0] == string.Empty)
@@ -100,7 +97,7 @@ namespace MoreTextOptions.Patching
 
         private static bool ContainsTag(string text)
         {
-            return regex.IsMatch(text);
+            return ModEntry.REGEX.IsMatch(text);
         }
     }
 }

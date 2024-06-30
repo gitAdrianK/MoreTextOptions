@@ -10,6 +10,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace MoreTextOptions
 {
@@ -20,6 +21,7 @@ namespace MoreTextOptions
         const string HARMONY_IDENTIFIER = "Zebra.MoreTextOptions.Harmony";
         const string SETTINGS_FILE = "Zebra.MoreTextOptions.Settings.xml";
 
+        public static readonly Regex REGEX = new Regex("{color=\"(#(?:[0-9a-fA-F]{2}){3})\"}", RegexOptions.IgnoreCase);
         public static Harmony Harmony { get; set; }
         private static string AssemblyPath { get; set; }
         public static Preferences Preferences { get; private set; }
@@ -110,8 +112,9 @@ namespace MoreTextOptions
             Preferences.PropertyChanged += SaveSettingsOnFile;
 
             Harmony = new Harmony(HARMONY_IDENTIFIER);
-            new Patching.TextHelper();
+            new Patching.SayLine();
             new Patching.SpriteBatch();
+            new Patching.TextHelper();
 
             SpriteFont spriteFont = Game1.instance.contentManager.font.MenuFont;
             Point red = spriteFont.MeasureString("Red").ToPoint();
