@@ -79,6 +79,7 @@
     <Compile Include="Menu\ToggleCustomText.cs" />
     <Compile Include="ModEntry.cs" />
     <Compile Include="Patching\SayLine.cs" />
+    <Compile Include="Patching\SpeechBubbleFormat.cs" />
     <Compile Include="Patching\SpriteBatch.cs" />
     <Compile Include="Patching\SpriteFont.cs" />
     <Compile Include="Patching\TextHelper.cs" />

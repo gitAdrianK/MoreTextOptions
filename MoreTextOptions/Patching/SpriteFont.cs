@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using System;
 using System.Reflection;
+using Xna = Microsoft.Xna.Framework.Graphics;
 
 namespace MoreTextOptions.Patching
 {
@@ -10,9 +11,9 @@ namespace MoreTextOptions.Patching
         {
             Harmony harmony = ModEntry.Harmony;
 
-            MethodInfo measureString = typeof(Microsoft.Xna.Framework.Graphics.SpriteFont).GetMethod(nameof(Microsoft.Xna.Framework.Graphics.SpriteFont.MeasureString),
+            MethodInfo measureString = typeof(Xna.SpriteFont).GetMethod(nameof(Xna.SpriteFont.MeasureString),
                 new Type[] { typeof(string) });
-            HarmonyMethod removeTags = new HarmonyMethod(typeof(SpriteBatch).GetMethod(nameof(RemoveTags)));
+            HarmonyMethod removeTags = new HarmonyMethod(typeof(SpriteFont).GetMethod(nameof(RemoveTags)));
             harmony.Patch(
                 measureString,
                 prefix: removeTags);

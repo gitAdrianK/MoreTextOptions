@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Xna = Microsoft.Xna.Framework.Graphics;
 
 namespace MoreTextOptions.Patching
 {
@@ -15,15 +16,15 @@ namespace MoreTextOptions.Patching
         {
             Harmony harmony = ModEntry.Harmony;
 
-            MethodInfo drawString = typeof(Microsoft.Xna.Framework.Graphics.SpriteBatch).GetMethod(nameof(Microsoft.Xna.Framework.Graphics.SpriteBatch.DrawString),
-                new Type[] { typeof(Microsoft.Xna.Framework.Graphics.SpriteFont), typeof(string), typeof(Vector2), typeof(Color) });
+            MethodInfo drawString = typeof(Xna.SpriteBatch).GetMethod(nameof(Xna.SpriteBatch.DrawString),
+                new Type[] { typeof(Xna.SpriteFont), typeof(string), typeof(Vector2), typeof(Color) });
             HarmonyMethod modifyText = new HarmonyMethod(typeof(SpriteBatch).GetMethod(nameof(ModifyText)));
             harmony.Patch(
                 drawString,
                 prefix: modifyText);
         }
 
-        public static bool ModifyText(Microsoft.Xna.Framework.Graphics.SpriteFont spriteFont, ref string text, ref Vector2 position, ref Color color)
+        public static bool ModifyText(Xna.SpriteFont spriteFont, ref string text, ref Vector2 position, ref Color color)
         {
             if (!ModEntry.REGEX.IsMatch(text))
             {

@@ -3,6 +3,7 @@ using HarmonyLib;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using JK = JumpKing.MiscEntities.OldMan;
 
 namespace MoreTextOptions.Patching
 {
@@ -18,13 +19,13 @@ namespace MoreTextOptions.Patching
         {
             Harmony harmony = ModEntry.Harmony;
 
-            MethodInfo sayLineMyRun = typeof(JumpKing.MiscEntities.OldMan.SayLine).GetMethod("MyRun", BindingFlags.NonPublic | BindingFlags.Instance);
+            MethodInfo sayLineMyRun = typeof(JK.SayLine).GetMethod("MyRun", BindingFlags.NonPublic | BindingFlags.Instance);
             HarmonyMethod addFullTagToCurrentLine = new HarmonyMethod(typeof(SayLine).GetMethod(nameof(AddFullTagToCurrentLine)));
             harmony.Patch(
                 sayLineMyRun,
                 postfix: addFullTagToCurrentLine);
 
-            MethodInfo resetLine = typeof(JumpKing.MiscEntities.OldMan.SayLine).GetMethod("Reset", BindingFlags.NonPublic | BindingFlags.Instance);
+            MethodInfo resetLine = typeof(JK.SayLine).GetMethod("Reset", BindingFlags.NonPublic | BindingFlags.Instance);
             HarmonyMethod resetLength = new HarmonyMethod(typeof(SayLine).GetMethod(nameof(ResetLine)));
             harmony.Patch(
                 resetLine,

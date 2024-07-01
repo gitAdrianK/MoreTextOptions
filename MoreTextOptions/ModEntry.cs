@@ -96,7 +96,7 @@ namespace MoreTextOptions
         [BeforeLevelLoad]
         public static void BeforeLevelLoad()
         {
-            //Debugger.Launch();
+            Debugger.Launch();
             // BUG: lines are broken up considering the tags line length
             // BUG: Fading text goes back to white
 
@@ -115,6 +115,7 @@ namespace MoreTextOptions
 
             Harmony = new Harmony(HARMONY_IDENTIFIER);
             new Patching.SayLine();
+            new Patching.SpeechBubbleFormat();
             new Patching.SpriteBatch();
             new Patching.SpriteFont();
             new Patching.TextHelper();

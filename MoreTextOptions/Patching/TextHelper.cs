@@ -2,6 +2,8 @@
 using JumpKing;
 using Microsoft.Xna.Framework;
 using System.Reflection;
+using JK = JumpKing.Util;
+using Xna = Microsoft.Xna.Framework.Graphics;
 
 namespace MoreTextOptions.Patching
 {
@@ -11,14 +13,14 @@ namespace MoreTextOptions.Patching
         {
             Harmony harmony = ModEntry.Harmony;
 
-            MethodInfo drawString = typeof(JumpKing.Util.TextHelper).GetMethod(nameof(JumpKing.Util.TextHelper.DrawString));
+            MethodInfo drawString = typeof(JK.TextHelper).GetMethod(nameof(JK.TextHelper.DrawString));
             HarmonyMethod modifyText = new HarmonyMethod(typeof(TextHelper).GetMethod(nameof(ModifyText)));
             harmony.Patch(
                 drawString,
                 prefix: modifyText);
         }
 
-        public static bool ModifyText(Microsoft.Xna.Framework.Graphics.SpriteFont p_font, string p_text, Vector2 p_position, ref Color p_color, ref bool p_is_outlined)
+        public static bool ModifyText(Xna.SpriteFont p_font, string p_text, Vector2 p_position, ref Color p_color, ref bool p_is_outlined)
         {
             if (!p_is_outlined)
             {
