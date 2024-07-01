@@ -97,6 +97,8 @@ namespace MoreTextOptions
         public static void BeforeLevelLoad()
         {
             //Debugger.Launch();
+            // TODO: The speech bubble, while displaying the colours is offset as if the tag was in the string,
+            // also lines are broken up considering the tags line length
 
             AssemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 

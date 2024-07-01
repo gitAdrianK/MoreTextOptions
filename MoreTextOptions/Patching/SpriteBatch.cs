@@ -16,18 +16,9 @@ namespace MoreTextOptions.Patching
         {
             Harmony harmony = ModEntry.Harmony;
 
-            // For some reason theres 4 methods DrawString that have a body instead of cascading properly, compiler magic I guess ¯\_(ツ)_/¯
             MethodInfo drawString = typeof(Microsoft.Xna.Framework.Graphics.SpriteBatch).GetMethod(nameof(Microsoft.Xna.Framework.Graphics.SpriteBatch.DrawString),
                 new Type[] { typeof(SpriteFont), typeof(string), typeof(Vector2), typeof(Color) });
-            //MethodInfo drawString2 = typeof(Microsoft.Xna.Framework.Graphics.SpriteBatch).GetMethod(nameof(Microsoft.Xna.Framework.Graphics.SpriteBatch.DrawString),
-            //    new Type[] { typeof(SpriteFont), typeof(string), typeof(Vector2), typeof(Color), typeof(float), typeof(Vector2), typeof(Vector2), typeof(SpriteEffect), typeof(float) });
-            //MethodInfo drawString3 = typeof(Microsoft.Xna.Framework.Graphics.SpriteBatch).GetMethod(nameof(Microsoft.Xna.Framework.Graphics.SpriteBatch.DrawString),
-            //    new Type[] { typeof(SpriteFont), typeof(StringBuilder), typeof(Vector2), typeof(Color) });
-            //MethodInfo drawString4 = typeof(Microsoft.Xna.Framework.Graphics.SpriteBatch).GetMethod(nameof(Microsoft.Xna.Framework.Graphics.SpriteBatch.DrawString),
-            //    new Type[] { typeof(SpriteFont), typeof(StringBuilder), typeof(Vector2), typeof(Color), typeof(float), typeof(Vector2), typeof(Vector2), typeof(SpriteEffect), typeof(float) });
-
             HarmonyMethod modifyText = new HarmonyMethod(typeof(SpriteBatch).GetMethod(nameof(ModifyText)));
-
             harmony.Patch(
                 drawString,
                 prefix: modifyText);
@@ -35,7 +26,7 @@ namespace MoreTextOptions.Patching
 
         public static bool ModifyText(SpriteFont spriteFont, ref string text, ref Vector2 position, ref Color color)
         {
-            if (!ContainsTag(text.Trim()))
+            if (!ModEntry.REGEX.IsMatch(text))
             {
                 return true;
             }
@@ -93,11 +84,6 @@ namespace MoreTextOptions.Patching
             }
 
             return true;
-        }
-
-        private static bool ContainsTag(string text)
-        {
-            return ModEntry.REGEX.IsMatch(text);
         }
     }
 }
