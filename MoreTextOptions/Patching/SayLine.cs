@@ -57,10 +57,10 @@ namespace MoreTextOptions.Patching
                 return;
             }
 
-            // The regex is 18 characters long, '{' is already added
+            // The regex is 17 characters long, '{' is already added (16)
+            // but we are also adding the next character (17).
             traverseCurrentLine.SetValue(currentLine + afterCurrent.Substring(1, 17));
-            prevLength = prevLength + 17;
-
+            prevLength += 17;
         }
 
         public static void ResetLine()

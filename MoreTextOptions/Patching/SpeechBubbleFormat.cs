@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
 using JK = JumpKing.MiscEntities.OldMan;
 using Xna = Microsoft.Xna.Framework.Graphics;
@@ -49,18 +48,35 @@ namespace MoreTextOptions.Patching
             string fullStr = __state;
             List<string> withTags = new List<string>();
 
-            int index = 0;
+            int start = 0;
+            int indexFull = 0;
 
-            // TODO: Reinsert tags :)
             foreach (string chop in __result)
             {
-                Debugger.Log(1, "", "Chop -" + chop + "\n");
-                foreach (char c in chop)
+                int length = 0;
+                foreach (char chopChar in chop)
                 {
+                    while (chopChar != fullStr[indexFull])
+                    {
+                        if (fullStr[indexFull] == '{' && fullStr.Length - indexFull >= 16)
+                        {
+                            if (ModEntry.REGEX.IsMatch(fullStr.Substring(indexFull, 17) + "\n"))
+                            {
+                                length += 16;
+                                indexFull += 16;
+                            }
+                        }
+                        length++;
+                        indexFull++;
+                    }
+                    length++;
+                    indexFull++;
                 }
+                withTags.Add(fullStr.Substring(start, length));
+                start = indexFull;
             }
 
-            //__result = withTags;
+            __result = withTags;
         }
     }
 }
