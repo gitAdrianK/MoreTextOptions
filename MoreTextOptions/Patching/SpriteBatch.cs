@@ -1,7 +1,6 @@
 ﻿using HarmonyLib;
 using JumpKing;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,14 +16,14 @@ namespace MoreTextOptions.Patching
             Harmony harmony = ModEntry.Harmony;
 
             MethodInfo drawString = typeof(Microsoft.Xna.Framework.Graphics.SpriteBatch).GetMethod(nameof(Microsoft.Xna.Framework.Graphics.SpriteBatch.DrawString),
-                new Type[] { typeof(SpriteFont), typeof(string), typeof(Vector2), typeof(Color) });
+                new Type[] { typeof(Microsoft.Xna.Framework.Graphics.SpriteFont), typeof(string), typeof(Vector2), typeof(Color) });
             HarmonyMethod modifyText = new HarmonyMethod(typeof(SpriteBatch).GetMethod(nameof(ModifyText)));
             harmony.Patch(
                 drawString,
                 prefix: modifyText);
         }
 
-        public static bool ModifyText(SpriteFont spriteFont, ref string text, ref Vector2 position, ref Color color)
+        public static bool ModifyText(Microsoft.Xna.Framework.Graphics.SpriteFont spriteFont, ref string text, ref Vector2 position, ref Color color)
         {
             if (!ModEntry.REGEX.IsMatch(text))
             {

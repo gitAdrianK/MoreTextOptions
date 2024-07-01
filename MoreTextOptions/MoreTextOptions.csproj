@@ -80,6 +80,7 @@
     <Compile Include="ModEntry.cs" />
     <Compile Include="Patching\SayLine.cs" />
     <Compile Include="Patching\SpriteBatch.cs" />
+    <Compile Include="Patching\SpriteFont.cs" />
     <Compile Include="Patching\TextHelper.cs" />
     <Compile Include="Preferences.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

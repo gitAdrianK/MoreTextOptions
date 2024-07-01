@@ -97,8 +97,8 @@ namespace MoreTextOptions
         public static void BeforeLevelLoad()
         {
             //Debugger.Launch();
-            // TODO: The speech bubble, while displaying the colours is offset as if the tag was in the string,
-            // also lines are broken up considering the tags line length
+            // BUG: lines are broken up considering the tags line length
+            // BUG: Fading text goes back to white
 
             AssemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
@@ -116,6 +116,7 @@ namespace MoreTextOptions
             Harmony = new Harmony(HARMONY_IDENTIFIER);
             new Patching.SayLine();
             new Patching.SpriteBatch();
+            new Patching.SpriteFont();
             new Patching.TextHelper();
 
             SpriteFont spriteFont = Game1.instance.contentManager.font.MenuFont;
