@@ -96,8 +96,8 @@ namespace MoreTextOptions
         [BeforeLevelLoad]
         public static void BeforeLevelLoad()
         {
-            Debugger.Launch();
-            // BUG: lines are broken up considering the tags line length
+            //Debugger.Launch();
+
             // BUG: Fading text goes back to white
 
             AssemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
