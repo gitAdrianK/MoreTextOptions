@@ -1,7 +1,14 @@
-# MoreTextOptions
+Gives you the ability to customize text and outline colour of ingame strings like the timer or the ones added by other mods like Level%.
 
-Gives you the ability to disable all text outlines or to set the outline to a custom colour.
+Information for map makers:
+To change the colour of a maps credits, dialog, or location text (that you have access to the xml file containing the text to) add
+`{color="#RRGGBB"}`
+to the front of your text, the colour will affect all text to the right of it, another color tag can be used to change it again, don't place it at the end though, replace the RRGGBB with a valid hex representation of a colour, e.g. 00FF00 for full green. While technically you should be able to use this in other places too it seems to not play nicely all the time, so testing what works and what doesn't is on your end.
+
+Information for other modders:
+For your own mod to use custom colours use the function TextHelper.DrawString, if you dont want your text to be changed use Game1.spriteBatch.DrawString
 
 Was "Less", but with the 1.1 feature to customize outline colour "More" is more approriate.
+Was "Outlines", but with the 1.2 feature to customize text colour "Options" is more approriate.
 
 [Mod](https://steamcommunity.com/sharedfiles/filedetails/?id=3275249832)
