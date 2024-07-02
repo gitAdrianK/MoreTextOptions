@@ -140,7 +140,7 @@ namespace MoreTextOptions
                 p_color = new Color(Preferences.TextRed, Preferences.TextGreen, Preferences.TextBlue);
             }
 
-            if (Preferences.IsOutlineEnabled)
+            if (Preferences.IsOutlineDisabled)
             {
                 p_is_outlined = false;
                 return true;

@@ -9,7 +9,7 @@ namespace MoreTextOptions
         private int _textRed = 255;
         private int _textGreen = 255;
         private int _textBlue = 255;
-        private bool _isOutlineEnabled = false;
+        private bool _isOutlineDisabled = false;
         private bool _isCustomOutline = false;
         private int _outlineRed = 0;
         private int _outlineGreen = 0;
@@ -55,12 +55,12 @@ namespace MoreTextOptions
             }
         }
 
-        public bool IsOutlineEnabled
+        public bool IsOutlineDisabled
         {
-            get => _isOutlineEnabled;
+            get => _isOutlineDisabled;
             set
             {
-                _isOutlineEnabled = value;
+                _isOutlineDisabled = value;
                 OnPropertyChanged();
             }
         }

@@ -34,7 +34,7 @@ namespace MoreTextOptions.Patching
                     ModEntry.Preferences.TextBlue);
             }
 
-            if (ModEntry.Preferences.IsOutlineEnabled)
+            if (ModEntry.Preferences.IsOutlineDisabled)
             {
                 p_is_outlined = false;
                 return true;
