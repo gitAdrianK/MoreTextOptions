@@ -28,6 +28,11 @@ namespace MoreTextOptions.Patching
         {
             if (!ModEntry.REGEX.IsMatch(text))
             {
+                // Genuinely don't know why just allowing the original would mess with alpha
+                int ogR = Math.Min(color.R, color.A);
+                int ogG = Math.Min(color.G, color.A);
+                int ogB = Math.Min(color.B, color.A);
+                color = new Color(ogR, ogG, ogB, color.A);
                 return true;
             }
 
