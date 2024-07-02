@@ -137,7 +137,7 @@ namespace MoreTextOptions
 
             if (Preferences.IsCustomTextColor)
             {
-                p_color = new Color(Preferences.TextRed, Preferences.TextGreen, Preferences.TextBlue);
+                p_color = new Color(Preferences.TextRed, Preferences.TextGreen, Preferences.TextBlue, p_color.A);
             }
 
             if (Preferences.IsOutlineDisabled)

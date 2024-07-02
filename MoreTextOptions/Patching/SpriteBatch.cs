@@ -63,14 +63,9 @@ namespace MoreTextOptions.Patching
             int r = Convert.ToInt32(colors.First().Substring(1, 2), 16);
             int g = Convert.ToInt32(colors.First().Substring(3, 2), 16);
             int b = Convert.ToInt32(colors.First().Substring(5, 2), 16);
-            Color newColor = new Color(r, g, b, color.A);
+            color = new Color(r, g, b, color.A);
 
-            string cleanText = texts.First();
-
-            float centerX = position.X + spriteFont.MeasureString(text).X / 2;
-            color = newColor;
-            text = cleanText;
-            position = new Vector2(centerX - spriteFont.MeasureString(stringBuilder).X / 2, position.Y);
+            text = texts.First();
 
             Vector2 advancedPosition = new Vector2(position.X + spriteFont.MeasureString(text).X, position.Y);
             for (int j = 1; j < texts.Count; j++)

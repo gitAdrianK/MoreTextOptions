@@ -27,26 +27,24 @@ namespace MoreTextOptions.Patching
                 return true;
             }
 
-            if (ModEntry.Preferences.IsCustomTextColor)
+            Preferences pref = ModEntry.Preferences;
+
+            if (pref.IsCustomTextColor)
             {
-                p_color = new Color(ModEntry.Preferences.TextRed,
-                    ModEntry.Preferences.TextGreen,
-                    ModEntry.Preferences.TextBlue);
+                p_color = new Color(pref.TextRed, pref.TextGreen, pref.TextBlue, p_color.A);
             }
 
-            if (ModEntry.Preferences.IsOutlineDisabled)
+            if (pref.IsOutlineDisabled)
             {
                 p_is_outlined = false;
                 return true;
             }
 
-            if (ModEntry.Preferences.IsCustomOutline)
+            if (pref.IsCustomOutline)
             {
                 p_is_outlined = false;
 
-                Color color = new Color(ModEntry.Preferences.OutlineRed,
-                    ModEntry.Preferences.OutlineGreen,
-                    ModEntry.Preferences.OutlineBlue);
+                Color color = new Color(pref.OutlineRed, pref.OutlineGreen, pref.OutlineBlue, p_color.A);
                 Game1.spriteBatch.DrawString(p_font, p_text, Vector2.Add(p_position, new Vector2(-1f, -1f)), color);
                 Game1.spriteBatch.DrawString(p_font, p_text, Vector2.Add(p_position, new Vector2(-1f, 0f)), color);
                 Game1.spriteBatch.DrawString(p_font, p_text, Vector2.Add(p_position, new Vector2(-1f, 1f)), color);
