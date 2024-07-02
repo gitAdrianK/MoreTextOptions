@@ -60,9 +60,9 @@ namespace MoreTextOptions.Patching
                 stringBuilder.Append(element);
             }
 
-            int r = Convert.ToInt32(colors.First().Substring(1, 2), 16);
-            int g = Convert.ToInt32(colors.First().Substring(3, 2), 16);
-            int b = Convert.ToInt32(colors.First().Substring(5, 2), 16);
+            int r = Math.Min(Convert.ToInt32(colors.First().Substring(1, 2), 16), color.A);
+            int g = Math.Min(Convert.ToInt32(colors.First().Substring(3, 2), 16), color.A);
+            int b = Math.Min(Convert.ToInt32(colors.First().Substring(5, 2), 16), color.A);
             color = new Color(r, g, b, color.A);
 
             text = texts.First();
@@ -70,9 +70,9 @@ namespace MoreTextOptions.Patching
             Vector2 advancedPosition = new Vector2(position.X + spriteFont.MeasureString(text).X, position.Y);
             for (int j = 1; j < texts.Count; j++)
             {
-                int remainingR = Convert.ToInt32(colors[j].Substring(1, 2), 16);
-                int remainingG = Convert.ToInt32(colors[j].Substring(3, 2), 16);
-                int remainingB = Convert.ToInt32(colors[j].Substring(5, 2), 16);
+                int remainingR = Math.Min(Convert.ToInt32(colors[j].Substring(1, 2), 16), color.A);
+                int remainingG = Math.Min(Convert.ToInt32(colors[j].Substring(3, 2), 16), color.A);
+                int remainingB = Math.Min(Convert.ToInt32(colors[j].Substring(5, 2), 16), color.A);
                 Color remainingColor = new Color(remainingR, remainingG, remainingB, color.A);
                 Game1.spriteBatch.DrawString(spriteFont, texts[j], advancedPosition, remainingColor);
                 advancedPosition.X += spriteFont.MeasureString(texts[j]).X;

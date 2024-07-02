@@ -56,7 +56,9 @@ namespace MoreTextOptions.Patching
                 int length = 0;
                 foreach (char chopChar in chop)
                 {
-                    while (chopChar != fullStr[indexFull])
+                    // Technically if the char was part of a tag the next one has to be
+                    // the char we are looking for so the while is not really needed.
+                    while (chopChar != fullStr[indexFull] && indexFull < fullStr.Length)
                     {
                         if (fullStr[indexFull] == '{' && fullStr.Length - indexFull >= 16)
                         {
