@@ -97,9 +97,6 @@ namespace MoreTextOptions
         public static void BeforeLevelLoad()
         {
             //Debugger.Launch();
-
-            // BUG: Fading text goes back to white
-
             AssemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             try
