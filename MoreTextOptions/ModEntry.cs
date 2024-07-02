@@ -10,6 +10,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace MoreTextOptions
 {
@@ -20,6 +21,7 @@ namespace MoreTextOptions
         const string HARMONY_IDENTIFIER = "Zebra.MoreTextOptions.Harmony";
         const string SETTINGS_FILE = "Zebra.MoreTextOptions.Settings.xml";
 
+        public static readonly Regex REGEX = new Regex("{color=\"(#(?:[0-9a-fA-F]{2}){3})\"}", RegexOptions.IgnoreCase);
         public static Harmony Harmony { get; set; }
         private static string AssemblyPath { get; set; }
         public static Preferences Preferences { get; private set; }
@@ -96,6 +98,8 @@ namespace MoreTextOptions
         {
             //Debugger.Launch();
 
+            // BUG: Fading text goes back to white
+
             AssemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
             try
@@ -110,8 +114,11 @@ namespace MoreTextOptions
             Preferences.PropertyChanged += SaveSettingsOnFile;
 
             Harmony = new Harmony(HARMONY_IDENTIFIER);
-            new Patching.TextHelper();
+            new Patching.SayLine();
+            new Patching.SpeechBubbleFormat();
             new Patching.SpriteBatch();
+            new Patching.SpriteFont();
+            new Patching.TextHelper();
 
             SpriteFont spriteFont = Game1.instance.contentManager.font.MenuFont;
             Point red = spriteFont.MeasureString("Red").ToPoint();
@@ -130,10 +137,10 @@ namespace MoreTextOptions
 
             if (Preferences.IsCustomTextColor)
             {
-                p_color = new Color(Preferences.TextRed, Preferences.TextGreen, Preferences.TextBlue);
+                p_color = new Color(Preferences.TextRed, Preferences.TextGreen, Preferences.TextBlue, p_color.A);
             }
 
-            if (Preferences.IsOutlineEnabled)
+            if (Preferences.IsOutlineDisabled)
             {
                 p_is_outlined = false;
                 return true;

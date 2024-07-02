@@ -4,7 +4,7 @@ namespace MoreTextOptions.Menu
 {
     public class ToggleDisableOutline : ITextToggle
     {
-        public ToggleDisableOutline() : base(ModEntry.Preferences.IsOutlineEnabled)
+        public ToggleDisableOutline() : base(ModEntry.Preferences.IsOutlineDisabled)
         {
         }
 
@@ -12,7 +12,7 @@ namespace MoreTextOptions.Menu
 
         protected override void OnToggle()
         {
-            ModEntry.Preferences.IsOutlineEnabled = !ModEntry.Preferences.IsOutlineEnabled;
+            ModEntry.Preferences.IsOutlineDisabled = !ModEntry.Preferences.IsOutlineDisabled;
         }
     }
 }
