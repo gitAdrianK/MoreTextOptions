@@ -47,24 +47,20 @@ namespace MoreTextOptions.Patching
             List<string> colors = new List<string>();
             List<string> texts = new List<string>();
             StringBuilder stringBuilder = new StringBuilder();
-            int i = -1;
+            int i = 0;
             foreach (string element in pairs)
             {
-                i++;
                 if (i % 2 == 0)
                 {
                     colors.Add(element);
-                    continue;
                 }
-                texts.Add(element);
-                stringBuilder.Append(element);
+                else
+                {
+                    texts.Add(element);
+                    stringBuilder.Append(element);
+                }
+                i++;
             }
-
-            int r = Convert.ToInt32(colors.First().Substring(1, 2), 16);
-            int g = Convert.ToInt32(colors.First().Substring(3, 2), 16);
-            int b = Convert.ToInt32(colors.First().Substring(5, 2), 16);
-            color = new Color(r, g, b, color.A);
-            color *= color.A / 255.0f;
 
             text = texts.First();
 
@@ -74,11 +70,30 @@ namespace MoreTextOptions.Patching
                 int remainingR = Convert.ToInt32(colors[j].Substring(1, 2), 16);
                 int remainingG = Convert.ToInt32(colors[j].Substring(3, 2), 16);
                 int remainingB = Convert.ToInt32(colors[j].Substring(5, 2), 16);
-                Color remainingColor = new Color(remainingR, remainingG, remainingB, color.A);
-                remainingColor *= color.A / 255.0f;
+                float remPercentR = color.R / 255.0f * remainingR;
+                float remPercentG = color.G / 255.0f * remainingG;
+                float remPercentB = color.B / 255.0f * remainingB;
+                Color remainingColor = new Color(
+                    (int)remPercentR,
+                    (int)remPercentG,
+                    (int)remPercentB,
+                    color.A);
                 Game1.spriteBatch.DrawString(spriteFont, texts[j], advancedPosition, remainingColor);
                 advancedPosition.X += spriteFont.MeasureString(texts[j]).X;
             }
+
+
+            int r = Convert.ToInt32(colors.First().Substring(1, 2), 16);
+            int g = Convert.ToInt32(colors.First().Substring(3, 2), 16);
+            int b = Convert.ToInt32(colors.First().Substring(5, 2), 16);
+            float percentR = color.R / 255.0f * r;
+            float percentG = color.G / 255.0f * g;
+            float percentB = color.B / 255.0f * b;
+            color = new Color(
+                (int)percentR,
+                (int)percentG,
+                (int)percentB,
+                color.A);
 
             return true;
         }
