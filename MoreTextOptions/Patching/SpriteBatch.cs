@@ -28,11 +28,6 @@ namespace MoreTextOptions.Patching
         {
             if (!ModEntry.REGEX.IsMatch(text))
             {
-                // Genuinely don't know why just allowing the original would mess with alpha
-                int ogR = Math.Min(color.R, color.A);
-                int ogG = Math.Min(color.G, color.A);
-                int ogB = Math.Min(color.B, color.A);
-                color = new Color(ogR, ogG, ogB, color.A);
                 return true;
             }
 
@@ -65,20 +60,22 @@ namespace MoreTextOptions.Patching
                 stringBuilder.Append(element);
             }
 
-            int r = Math.Min(Convert.ToInt32(colors.First().Substring(1, 2), 16), color.A);
-            int g = Math.Min(Convert.ToInt32(colors.First().Substring(3, 2), 16), color.A);
-            int b = Math.Min(Convert.ToInt32(colors.First().Substring(5, 2), 16), color.A);
+            int r = Convert.ToInt32(colors.First().Substring(1, 2), 16);
+            int g = Convert.ToInt32(colors.First().Substring(3, 2), 16);
+            int b = Convert.ToInt32(colors.First().Substring(5, 2), 16);
             color = new Color(r, g, b, color.A);
+            color *= color.A / 255.0f;
 
             text = texts.First();
 
             Vector2 advancedPosition = new Vector2(position.X + spriteFont.MeasureString(text).X, position.Y);
             for (int j = 1; j < texts.Count; j++)
             {
-                int remainingR = Math.Min(Convert.ToInt32(colors[j].Substring(1, 2), 16), color.A);
-                int remainingG = Math.Min(Convert.ToInt32(colors[j].Substring(3, 2), 16), color.A);
-                int remainingB = Math.Min(Convert.ToInt32(colors[j].Substring(5, 2), 16), color.A);
+                int remainingR = Convert.ToInt32(colors[j].Substring(1, 2), 16);
+                int remainingG = Convert.ToInt32(colors[j].Substring(3, 2), 16);
+                int remainingB = Convert.ToInt32(colors[j].Substring(5, 2), 16);
                 Color remainingColor = new Color(remainingR, remainingG, remainingB, color.A);
+                remainingColor *= color.A / 255.0f;
                 Game1.spriteBatch.DrawString(spriteFont, texts[j], advancedPosition, remainingColor);
                 advancedPosition.X += spriteFont.MeasureString(texts[j]).X;
             }

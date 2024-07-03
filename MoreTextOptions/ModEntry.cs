@@ -135,6 +135,7 @@ namespace MoreTextOptions
             if (Preferences.IsCustomTextColor)
             {
                 p_color = new Color(Preferences.TextRed, Preferences.TextGreen, Preferences.TextBlue, p_color.A);
+                p_color *= p_color.A / 255.0f;
             }
 
             if (Preferences.IsOutlineDisabled)
@@ -147,6 +148,7 @@ namespace MoreTextOptions
             {
                 p_is_outlined = false;
 
+                // There is no point in drawing the outline with any alpha because it doesn't look good
                 Color color = new Color(Preferences.OutlineRed, Preferences.OutlineGreen, Preferences.OutlineBlue);
                 Game1.spriteBatch.DrawString(p_font, p_text, Vector2.Add(p_position, new Vector2(-1f, -1f)), color);
                 Game1.spriteBatch.DrawString(p_font, p_text, Vector2.Add(p_position, new Vector2(-1f, 0f)), color);
