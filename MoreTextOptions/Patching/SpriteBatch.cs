@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Xna = Microsoft.Xna.Framework.Graphics;
 
 namespace MoreTextOptions.Patching
@@ -46,7 +45,6 @@ namespace MoreTextOptions.Patching
 
             List<string> colors = new List<string>();
             List<string> texts = new List<string>();
-            StringBuilder stringBuilder = new StringBuilder();
             int i = 0;
             foreach (string element in pairs)
             {
@@ -57,7 +55,6 @@ namespace MoreTextOptions.Patching
                 else
                 {
                     texts.Add(element);
-                    stringBuilder.Append(element);
                 }
                 i++;
             }
