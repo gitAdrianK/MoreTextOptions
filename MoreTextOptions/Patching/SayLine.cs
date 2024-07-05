@@ -51,7 +51,7 @@ namespace MoreTextOptions.Patching
 
             Traverse traverseSampleLine = instance.Field("m_sample_line");
             string sampleLine = traverseSampleLine.GetValue<string>();
-            string afterCurrent = sampleLine.Substring(currentLine.Length - 1, sampleLine.Length - currentLine.Length);
+            string afterCurrent = sampleLine.Substring(currentLine.Length - 1, sampleLine.Length - (currentLine.Length - 1));
             if (!PREFIX_REGEX.IsMatch(afterCurrent))
             {
                 return;

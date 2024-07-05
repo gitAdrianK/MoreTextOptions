@@ -23,25 +23,15 @@ namespace MoreTextOptions.Patching
                 prefix: modifyText);
         }
 
-        public static bool ModifyText(Xna.SpriteFont spriteFont, ref string text, ref Vector2 position, ref Color color)
+        public static bool ModifyText(Xna.SpriteFont spriteFont, ref string text, Vector2 position, ref Color color)
         {
             if (!ModEntry.REGEX.IsMatch(text))
             {
                 return true;
             }
 
-            string[] substrings = ModEntry.REGEX.Split(text);
+            LinkedList<string> pairs = Sanitize(ModEntry.REGEX.Split(text));
 
-            LinkedList<string> pairs;
-            if (substrings[0] == string.Empty)
-            {
-                pairs = new LinkedList<string>(substrings.Skip(1));
-            }
-            else
-            {
-                pairs = new LinkedList<string>(substrings);
-                pairs.AddFirst("#FFFFFF");
-            }
 
             List<string> colors = new List<string>();
             List<string> texts = new List<string>();
@@ -64,35 +54,52 @@ namespace MoreTextOptions.Patching
             Vector2 advancedPosition = new Vector2(position.X + spriteFont.MeasureString(text).X, position.Y);
             for (int j = 1; j < texts.Count; j++)
             {
-                int remainingR = Convert.ToInt32(colors[j].Substring(1, 2), 16);
-                int remainingG = Convert.ToInt32(colors[j].Substring(3, 2), 16);
-                int remainingB = Convert.ToInt32(colors[j].Substring(5, 2), 16);
-                float remPercentR = color.R / 255.0f * remainingR;
-                float remPercentG = color.G / 255.0f * remainingG;
-                float remPercentB = color.B / 255.0f * remainingB;
-                Color remainingColor = new Color(
-                    (int)remPercentR,
-                    (int)remPercentG,
-                    (int)remPercentB,
-                    color.A);
+                Color remainingColor = ColorFromHex(colors[j]);
+                remainingColor = AdjustRgbaFromRef(remainingColor, color);
                 Game1.spriteBatch.DrawString(spriteFont, texts[j], advancedPosition, remainingColor);
                 advancedPosition.X += spriteFont.MeasureString(texts[j]).X;
             }
 
-
-            int r = Convert.ToInt32(colors.First().Substring(1, 2), 16);
-            int g = Convert.ToInt32(colors.First().Substring(3, 2), 16);
-            int b = Convert.ToInt32(colors.First().Substring(5, 2), 16);
-            float percentR = color.R / 255.0f * r;
-            float percentG = color.G / 255.0f * g;
-            float percentB = color.B / 255.0f * b;
-            color = new Color(
-                (int)percentR,
-                (int)percentG,
-                (int)percentB,
-                color.A);
+            Color newColor = ColorFromHex(colors.First());
+            newColor = AdjustRgbaFromRef(newColor, color);
+            color = newColor;
 
             return true;
+        }
+
+        private static LinkedList<string> Sanitize(string[] substrings)
+        {
+            LinkedList<string> pairs;
+            if (substrings[0] == string.Empty)
+            {
+                pairs = new LinkedList<string>(substrings.Skip(1));
+            }
+            else
+            {
+                pairs = new LinkedList<string>(substrings);
+                pairs.AddFirst("#FFFFFF");
+            }
+            return pairs;
+        }
+
+        private static Color ColorFromHex(string hex)
+        {
+            int r = Convert.ToInt32(hex.Substring(1, 2), 16);
+            int g = Convert.ToInt32(hex.Substring(3, 2), 16);
+            int b = Convert.ToInt32(hex.Substring(5, 2), 16);
+            return new Color(r, g, b);
+        }
+
+        private static Color AdjustRgbaFromRef(Color color, Color reference)
+        {
+            float adjustedR = reference.R / 255.0f * color.R;
+            float adjustedG = reference.G / 255.0f * color.G;
+            float adjustedB = reference.B / 255.0f * color.B;
+            return new Color(
+                (int)adjustedR,
+                (int)adjustedG,
+                (int)adjustedB,
+                reference.A);
         }
     }
 }

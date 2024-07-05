@@ -45,39 +45,55 @@ namespace MoreTextOptions.Patching
                 return;
             }
 
-            string fullStr = __state;
-            List<string> withTags = new List<string>();
+            string stringFull = __state;
+            int indexFull = 0;
 
             int start = 0;
-            int indexFull = 0;
+
+            /* Fix for line splits losing colour, doesn't work yet as the SayLine sample does not get changed.
+            string currColor = string.Empty;
+            string nextColor = string.Empty;
+            */
+
+            List<string> withTags = new List<string>();
 
             foreach (string chop in __result)
             {
                 int length = 0;
-                foreach (char chopChar in chop)
+                // Assuming if we run into a tag the next char is the char we are looking for
+                foreach (char c in chop)
                 {
-                    // Technically if the char was part of a tag the next one has to be
-                    // the char we are looking for so the while is not really needed.
-                    while (chopChar != fullStr[indexFull] && indexFull < fullStr.Length)
+                    // The char is the char we are looking for.
+                    if (stringFull[indexFull] == c)
                     {
-                        if (fullStr[indexFull] == '{' && fullStr.Length - indexFull >= 16)
-                        {
-                            if (ModEntry.REGEX.IsMatch(fullStr.Substring(indexFull, 17) + "\n"))
-                            {
-                                length += 16;
-                                indexFull += 16;
-                            }
-                        }
                         length++;
                         indexFull++;
+                        continue;
                     }
-                    length++;
-                    indexFull++;
+                    // The char might be the beginning of a tag.
+                    if (stringFull[indexFull] == '{'
+                        && stringFull.Length - (indexFull + 17) > 0
+                        && ModEntry.REGEX.IsMatch(stringFull.Substring(indexFull, 17)))
+                    {
+                        /* Fix for line splits losing colour p2.
+                        // We are at the beginning of the chop.
+                        if (length == 0)
+                        {
+                            currColor = string.Empty;
+                        }
+                        nextColor = stringFull.Substring(indexFull, 17);
+                        */
+                        length += 18;
+                        indexFull += 18;
+                    }
                 }
-                withTags.Add(fullStr.Substring(start, length));
+                /* Fix for line splits losing colour p3.
+                withTags.Add($"{currColor}{stringFull.Substring(start, length).TrimStart()}");
+                currColor = nextColor;
+                */
+                withTags.Add(stringFull.Substring(start, length));
                 start = indexFull;
             }
-
             __result = withTags;
         }
     }
