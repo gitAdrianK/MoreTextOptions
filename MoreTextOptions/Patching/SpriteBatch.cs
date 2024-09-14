@@ -49,6 +49,11 @@ namespace MoreTextOptions.Patching
                 i++;
             }
 
+            if (colors.Count != texts.Count)
+            {
+                return true;
+            }
+
             text = texts.First();
 
             Vector2 advancedPosition = new Vector2(position.X + spriteFont.MeasureString(text).X, position.Y);

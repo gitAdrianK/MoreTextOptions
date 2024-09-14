@@ -59,8 +59,19 @@ namespace MoreTextOptions.Patching
 
             // The regex is 17 characters long, '{' is already added (16)
             // but we are also adding the next character (17).
-            traverseCurrentLine.SetValue(currentLine + afterCurrent.Substring(1, 17));
-            prevLength += 17;
+            if (afterCurrent.Length < 18)
+            {
+                // This is a little scuffed, but it prevents the crash and in a normal situation
+                // shouldn't happen anyways, only had this thought because of chat ravens and giving
+                // the user control over the string.
+                traverseCurrentLine.SetValue(currentLine + afterCurrent.Substring(1, 16));
+                prevLength += 16;
+            }
+            else
+            {
+                traverseCurrentLine.SetValue(currentLine + afterCurrent.Substring(1, 17));
+                prevLength += 17;
+            }
         }
 
         public static void ResetLine()
